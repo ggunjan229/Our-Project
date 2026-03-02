@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 notebook/data/
-artifacts/
+
 *.csv
 *.pkl
 venv/
