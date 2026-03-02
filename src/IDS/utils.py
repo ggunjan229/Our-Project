@@ -23,7 +23,7 @@ def read_sql_data():
             password=password,
             database=db
         )
-        logging.info("Connection established",mydb)
+        logging.info("Connection established")
         df1 = pd.read_sql_query("Select* from tuetofri_ids", mydb)
         df2 = pd.read_sql_query("Select* from mon_ids", mydb)
         print(df1.head())
