@@ -15,7 +15,7 @@ db = os.getenv("db")
 
 
 def read_sql_data():
-    logging.info("Reading data from mysql database")
+    logging.info("Reading data from MySQL database")
     try:
         mydb = pymysql.connect(
             host=host,
@@ -24,13 +24,14 @@ def read_sql_data():
             database=db
         )
         logging.info("Connection established")
-        df1 = pd.read_sql_query("Select* from tuetofri_ids", mydb)
-        df2 = pd.read_sql_query("Select* from mon_ids", mydb)
-        print(df1.head())
-        print(df2.head())
 
+        tue_fri_df = pd.read_sql_query("SELECT * FROM tuetofri_ids", mydb)
+        monday_df = pd.read_sql_query("SELECT * FROM mon_ids", mydb)
 
-        return df1, df2
-    
+        logging.info(f"Tue-Fri Shape: {tue_fri_df.shape}")
+        logging.info(f"Monday Shape: {monday_df.shape}")
+
+        return monday_df, tue_fri_df
+
     except Exception as ex:
-        raise CustomException(ex)   
+        raise CustomException(ex, sys)
