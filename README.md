@@ -5,4 +5,4 @@ It is an AI-based hybrid intrusion detection system designed to detect both know
 
 
 
-Dataset: CIC-IDS-2017 (https://www.kaggle.com/datasets/chethuhn/network-intrusion-dataset)
+Dataset Taken: CIC-IDS-2017 (https://www.kaggle.com/datasets/chethuhn/network-intrusion-dataset)
