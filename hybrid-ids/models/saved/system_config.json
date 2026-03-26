@@ -1,0 +1,34 @@
+{
+  "models": [
+    "rf_binary",
+    "xgb_binary",
+    "autoencoder_final",
+    "rf_multi"
+  ],
+  "fusion": "meta_learner",
+  "weights": {
+    "rf": 0.5,
+    "xgb": 0.35,
+    "ae": 0.15
+  },
+  "threshold": 0.003732891240405592,
+  "n_features": 40,
+  "classes": [
+    "BENIGN",
+    "Bot",
+    "DDoS",
+    "DoS GoldenEye",
+    "DoS Hulk",
+    "DoS Slowhttptest",
+    "DoS slowloris",
+    "FTP-Patator",
+    "Heartbleed",
+    "Infiltration",
+    "PortScan",
+    "SSH-Patator",
+    "Web Attack \ufffd Brute Force",
+    "Web Attack \ufffd Sql Injection",
+    "Web Attack \ufffd XSS"
+  ],
+  "version": "1.0.0"
+}
