@@ -1,0 +1,7 @@
+[2026-03-02 17:43:00,852] 8 root - INFO - The execution has started
+[2026-03-02 17:43:00,852] 18 root - INFO - Reading data from MySQL database
+[2026-03-02 17:43:00,980] 26 root - INFO - Connection established
+[2026-03-02 17:44:19,057] 31 root - INFO - Tue-Fri Shape: (1621085, 44)
+[2026-03-02 17:44:19,058] 32 root - INFO - Monday Shape: (458831, 44)
+[2026-03-02 17:44:19,228] 25 root - INFO - Reading completed from MySQL database
+[2026-03-02 17:44:49,182] 43 root - INFO - Data ingestion completed successfully

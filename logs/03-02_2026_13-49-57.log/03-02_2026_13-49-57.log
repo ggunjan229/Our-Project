@@ -1,0 +1,6 @@
+[2026-03-02 13:50:03,403] 8 root - INFO - The execution has started
+[2026-03-02 13:50:03,405] 18 root - INFO - Reading data from mysql database
+[2026-03-02 13:50:03,599] 26 root - INFO - Connection established
+[2026-03-02 13:50:06,415] 27 root - INFO - Reading completed from mysql database
+[2026-03-02 13:50:07,176] 33 root - INFO - Train test split initiated
+[2026-03-02 13:50:08,061] 39 root - INFO - Ingestion of the data is completed

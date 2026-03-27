@@ -1,0 +1,8 @@
+[2026-03-02 19:26:03,792] 18 root - INFO - Reading data from MySQL database
+[2026-03-02 19:26:03,947] 26 root - INFO - Connection established
+[2026-03-02 19:28:42,905] 31 root - INFO - Tue-Fri Shape: (1621085, 44)
+[2026-03-02 19:28:42,915] 32 root - INFO - Monday Shape: (458831, 44)
+[2026-03-02 20:29:50,823] 18 root - INFO - Reading data from MySQL database
+[2026-03-02 20:29:50,943] 26 root - INFO - Connection established
+[2026-03-02 20:33:03,056] 31 root - INFO - Tue-Fri Shape: (1621085, 44)
+[2026-03-02 20:33:03,079] 32 root - INFO - Monday Shape: (458831, 44)
