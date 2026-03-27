@@ -1,104 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KillIntruder | Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../static/css/auth.css">
-</head>
-<body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../static/css/auth.css" />
+    <script src="../static/js/login.js"></script>
+  </head>
+  <body>
     <!-- Animated Background Elements -->
     <div class="cyber-grid"></div>
     <div class="floating-particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
     </div>
     <div class="radar-scan"></div>
-    
+
     <!-- Login Container -->
     <div class="container">
-        <div class="card">
-            <h1>Kill<span>Intruder</span></h1>
-            
-            <form id="loginForm">
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" placeholder="Email Address" required>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" placeholder="Password" required>
-                        <button type="button" class="toggle-password" onclick="togglePassword()">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="form-options">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="rememberMe">
-                        <span>Remember me</span>
-                    </label>
-                    <a href="#" class="forgot-link">Forgot Password?</a>
-                </div>
-                
-                <button type="submit">Login</button>
-                
-                <div class="signup-link">
-                    Don't have an account? <a href="signup.html">Sign Up</a>
-                </div>
-            </form>
-            
-            <div class="security-badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>Enterprise Grade Security</span>
+      <div class="card">
+        <h1>Kill<span>Intruder</span></h1>
+
+        <form id="loginForm">
+          <div class="input-group">
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input
+                type="email"
+                id="email"
+                placeholder="Email Address"
+                required
+              />
             </div>
+          </div>
+
+          <div class="input-group">
+            <div class="input-wrapper">
+              <i class="fas fa-lock"></i>
+              <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePassword()"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe" />
+              <span>Remember me</span>
+            </label>
+            <span class="forgot-link" onclick="openForgotModal()"
+              >Forgot Password?</span
+            >
+          </div>
+
+          <button type="submit" href="index.html">Login</button>
+
+          <div class="signup-link">
+            Don't have an account?
+            <a href="signup.html" style="cursor: pointer">Sign Up</a>
+          </div>
+        </form>
+
+        <div class="security-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>Enterprise Grade Security</span>
         </div>
+      </div>
     </div>
-    
-    <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const toggleBtn = document.querySelector('.toggle-password i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleBtn.classList.remove('fa-eye');
-                toggleBtn.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                toggleBtn.classList.remove('fa-eye-slash');
-                toggleBtn.classList.add('fa-eye');
-            }
-        }
-        
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (email && password) {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userName', email.split('@')[0]);
-                window.location.href = 'index.html';
-            } else {
-                alert('Please enter both email and password');
-            }
-        });
-    </script>
-</body>
+    <!-- Forgot Password Modal -->
+    <div id="forgotModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal" onclick="closeForgotModal()">&times;</span>
+        <h3>Reset Password</h3>
+        <div id="resetMessage" class="message"></div>
+        <input type="email" id="resetEmail" placeholder="Email Address" />
+        <button onclick="sendResetLink()">Send Reset Link</button>
+        <button onclick="closeForgotModal()">Cancel</button>
+      </div>
+    </div>
+
+  </body>
 </html>
