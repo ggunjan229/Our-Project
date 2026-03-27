@@ -1,114 +1,151 @@
-async function login() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+// =======================
+// SIGNUP FUNCTION
+// =======================
+function signup(event) {
+    event.preventDefault();
 
-    if (!username || !password) {
-        alert("Please fill all fields");
-        return;
-    }
-
-    const res = await fetch("http://127.0.0.1:8000/login", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({username, password})
-    });
-
-    const data = await res.json();
-
-    if (data.access_token) {
-        // Save token
-        localStorage.setItem("token", data.access_token);
-
-        // Redirect to dashboard
-        window.location.href = "index.html";
-    } else {
-        alert("Invalid credentials");
-    }
-}
-async function signup() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-
-    const res = await fetch("http://127.0.0.1:8000/signup", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({username, password})
-    });
-
-    const data = await res.json();
-
-    if (data.message) {
-        alert("Account created successfully!");
-        window.location.href = "login.html";
-    } else {
-        alert("Signup failed");
-    }
-}
-function showSignupForm() {
-    document.getElementById('loginContainer').innerHTML = `
-        <div class="card">
-            <h1>Create Account</h1>
-            <input type="text" id="fullname" placeholder="Full Name">
-            <input type="email" id="signupEmail" placeholder="Email">
-            <input type="password" id="signupPassword" placeholder="Password">
-            <input type="password" id="signupConfirm" placeholder="Confirm Password">
-            <button onclick="signupUser()">Sign Up</button>
-            <a onclick="location.reload()">Back to Login</a>
-        </div>
-    `;
-}
-
-function signupUser() {
-    const fullname = document.getElementById('fullname').value;
-    const email = document.getElementById('signupEmail').value;
-    const password = document.getElementById('signupPassword').value;
-    const confirm = document.getElementById('signupConfirm').value;
-    
-    if (password !== confirm) {
-        alert('Passwords do not match');
-        return;
-    }
-    
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    users.push({ fullname, email, password });
-    localStorage.setItem('users', JSON.stringify(users));
-    
-    alert('Account created! Please login');
-    location.reload();
-}
-
-function openForgotModal() {
-    document.getElementById("forgotModal").classList.add("active");
-  }
-
-  function closeForgotModal() {
-    document.getElementById("forgotModal").classList.remove("active");
-  }
-  function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const toggleBtn = document.querySelector(".toggle-password i");
-
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-      toggleBtn.classList.remove("fa-eye");
-      toggleBtn.classList.add("fa-eye-slash");
-    } else {
-      passwordInput.type = "password";
-      toggleBtn.classList.remove("fa-eye-slash");
-      toggleBtn.classList.add("fa-eye");
-    }
-  }
-
-  document.getElementById("loginForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirmPassword").value;
 
-    if (email && password) {
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userName", email.split("@")[0]);
-      window.location.href = "index.html";
-    } else {
-      alert("Please enter both email and password");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const confirmError = document.getElementById("confirmError");
+
+    emailError.textContent = "";
+    passwordError.textContent = "";
+    confirmError.textContent = "";
+
+    let valid = true;
+
+    // ✅ Email validation
+    if (!email.includes("@")) {
+        emailError.textContent = "Enter valid email";
+        valid = false;
     }
-  });
+
+    // ✅ Strong password validation
+    const strongPassword = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,}$/;
+
+    if (!strongPassword.test(password)) {
+        passwordError.textContent =
+            "Min 8 chars, 1 uppercase, 1 number, 1 special char";
+        valid = false;
+    }
+
+    // ✅ Confirm password
+    if (password !== confirm) {
+        confirmError.textContent = "Passwords do not match";
+        valid = false;
+    }
+
+    if (!valid) return;
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // 🔴 FIX: Case-insensitive email check
+    const exists = users.some(u => u.email.toLowerCase() === email);
+
+    if (exists) {
+        emailError.textContent = "User already exists";
+        return;
+    }
+
+    // ✅ Save user
+    users.push({ email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // ✅ IMPORTANT: Clear old session (prevents bug)
+    localStorage.removeItem("loggedInUser");
+
+    // ✅ Redirect to login
+    window.location.href = "login.html";
+}
+
+
+// =======================
+// LOGIN FUNCTION
+// =======================
+function login(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+    const error = document.getElementById("loginError");
+
+    error.textContent = "";
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const user = users.find(
+        u => u.email.toLowerCase() === email && u.password === password
+    );
+
+    if (!user) {
+        error.textContent = "Invalid email or password";
+        return;
+    }
+
+    // ✅ Save session
+    localStorage.setItem("loggedInUser", email);
+
+    // ✅ Redirect to main page
+    window.location.href = "index.html";
+}
+
+
+// =======================
+// AUTH CHECK (VERY IMPORTANT)
+// =======================
+function checkAuth() {
+    const user = localStorage.getItem("loggedInUser");
+
+    if (!user) {
+        window.location.href = "login.html";
+    }
+}
+
+
+// =======================
+// LOGOUT FUNCTION
+// =======================
+function logout() {
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
+}
+
+
+// =======================
+// RESET PASSWORD (SIMULATED)
+// =======================
+function resetPassword() {
+    const email = document.getElementById("resetEmail").value.trim().toLowerCase();
+    const msg = document.getElementById("resetMsg");
+
+    msg.textContent = "";
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const user = users.find(u => u.email.toLowerCase() === email);
+
+    if (!user) {
+        msg.style.color = "red";
+        msg.textContent = "Email not found";
+        return;
+    }
+
+    msg.style.color = "lightgreen";
+    msg.textContent = "Reset link sent (simulated)";
+}
+
+
+// =======================
+// TOGGLE PASSWORD
+// =======================
+function togglePassword() {
+    const password = document.getElementById("password");
+
+    if (password) {
+        password.type = password.type === "password" ? "text" : "password";
+    }
+}

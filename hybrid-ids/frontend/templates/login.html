@@ -37,50 +37,45 @@
       <div class="card">
         <h1>Kill<span>Intruder</span></h1>
 
-        <form id="loginForm">
+        <form onsubmit="login(event)">
           <div class="input-group">
-            <div class="input-wrapper">
-              <i class="fas fa-envelope"></i>
-              <input
-                type="email"
-                id="email"
-                placeholder="Email Address"
-                required
-              />
-            </div>
+            <i class="fas fa-envelope"></i>
+            <input
+              type="email"
+              id="email"
+              placeholder="Email Address"
+              required
+            />
           </div>
 
           <div class="input-group">
-            <div class="input-wrapper">
-              <i class="fas fa-lock"></i>
-              <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                required
-              />
-              <button
-                type="button"
-                class="toggle-password"
-                onclick="togglePassword()"
-              >
-                <i class="fas fa-eye"></i>
-              </button>
-            </div>
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
           </div>
 
+          <!-- Error -->
+          <p id="loginError" style="color: red; margin-top: 5px"></p>
+
+          <!-- Remember + Forgot -->
           <div class="form-options">
             <label class="checkbox-label">
               <input type="checkbox" id="rememberMe" />
               <span>Remember me</span>
             </label>
-            <span class="forgot-link" onclick="openForgotModal()"
+            <span class="forgot-link" onclick="resetPassword()"
               >Forgot Password?</span
             >
           </div>
 
-          <button type="submit" href="index.html">Login</button>
+          <!-- Login Button -->
+          <button type="submit" class="login-btn">Login</button>
 
+        
           <div class="signup-link">
             Don't have an account?
             <a href="signup.html" style="cursor: pointer">Sign Up</a>
@@ -89,21 +84,13 @@
 
         <div class="security-badge">
           <i class="fas fa-shield-alt"></i>
-          <span>Enterprise Grade Security</span>
+          <span>AI Based Hybrid Security</span>
         </div>
       </div>
     </div>
     <!-- Forgot Password Modal -->
-    <div id="forgotModal" class="modal">
-      <div class="modal-content">
-        <span class="close-modal" onclick="closeForgotModal()">&times;</span>
-        <h3>Reset Password</h3>
-        <div id="resetMessage" class="message"></div>
-        <input type="email" id="resetEmail" placeholder="Email Address" />
-        <button onclick="sendResetLink()">Send Reset Link</button>
-        <button onclick="closeForgotModal()">Cancel</button>
-      </div>
-    </div>
-
+    <input type="email" id="resetEmail" placeholder="Enter your email" />
+    <button onclick="resetPassword()">Reset Password</button>
+    <small class="error" id="resetMsg"></small>
   </body>
 </html>
