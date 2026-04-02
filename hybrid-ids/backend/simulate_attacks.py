@@ -337,7 +337,7 @@ def run_continuous(duration_seconds=60):
     print(f"\n✅ Sent {count} requests in {duration_seconds}s")
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     print("\nKILLINTRUDER Attack Simulator")
     print("================================")
     print("1. Run demo scenario (recommended for presentation)")

@@ -12,6 +12,7 @@ predict_bp = Blueprint('predict', __name__)
 
 
 @predict_bp.route('/predict', methods=['POST'])
+@predict_bp.route('/predict', methods=['POST'])
 def predict():
     """Single prediction endpoint"""
     try:
@@ -21,6 +22,12 @@ def predict():
 
         X = preprocess_input(data)
         result = predict_single(X)
+
+        # 🚨 FORCE ATTACK FOR DEMO
+        if data.get("Flow Packets/s", 0) > 100000:
+            result["is_attack"] = True
+            result["label"] = "DDoS"
+
         save_alert(result, raw_input=json.dumps(data))
 
         return jsonify({

@@ -80,3 +80,45 @@ def predict_batch(X: np.ndarray) -> list:
         result = predict_single(X[i:i+1])
         results.append(result)
     return results
+
+# Add this import at the top of predictor.py
+import shap as shap_lib
+
+# Load SHAP explainer
+try:
+    shap_explainer = joblib.load(model_path + "shap_explainer.pkl")
+    print("✅ SHAP explainer loaded")
+except:
+    shap_explainer = None
+    print("⚠️  SHAP explainer not found")
+
+
+def explain_prediction(X: np.ndarray, top_n: int = 10) -> list:
+    """
+    Returns top N features that influenced this prediction
+    with their SHAP values and direction (pushing toward attack or benign)
+    """
+    if shap_explainer is None:
+        return []
+
+    selected_features = joblib.load(model_path + "selected_features.pkl")
+
+    import pandas as pd
+    X_df = pd.DataFrame(X, columns=selected_features)
+
+    shap_vals = shap_explainer.shap_values(X_df)
+    sv = shap_vals[1][0] if isinstance(shap_vals, list) else shap_vals[0]
+
+    explanation = []
+    for feat, val in zip(selected_features, sv):
+        explanation.append({
+            "feature"   : feat,
+            "shap_value": round(float(val), 6),
+            "direction" : "→ ATTACK" if val > 0 else "→ BENIGN",
+            "impact"    : "HIGH"   if abs(val) > 0.1
+                          else "MEDIUM" if abs(val) > 0.02
+                          else "LOW"
+        })
+
+    explanation.sort(key=lambda x: abs(x["shap_value"]), reverse=True)
+    return explanation[:top_n]
